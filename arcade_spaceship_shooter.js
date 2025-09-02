@@ -11,6 +11,11 @@ ship2Img.src = 'spaceship2.png'; // 圖片檔名
 var start=false
 var Level=1
 var Rspeed=0
+let imagesLoaded = 0;
+
+shipImg.onload = () => { imagesLoaded++; checkStart(); }
+ship2Img.onload = () => { imagesLoaded++; checkStart(); }
+
 // 定義太空船物件
 const ship = {
   x: canvas.width / 2, // 太空船初始 X 座標在中間
@@ -191,7 +196,7 @@ function gameLoop() {
 //  gameLoop(); // 啟動主迴圈
 //}
 document.addEventListener('keydown', function(e) {
-  if (e.code === 'Space' && !start) {
+  if (e.code === 'Space' && !start && imagesLoaded == 2) {
     $('#space').hide()
     start = true;
     gameLoop();
