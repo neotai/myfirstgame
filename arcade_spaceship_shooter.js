@@ -14,7 +14,7 @@ var Rspeed=0
 // 定義太空船物件
 const ship = {
   x: canvas.width / 2, // 太空船初始 X 座標在中間
-  y: canvas.height - 120, // 太空船初始 Y 座標靠下
+  y: canvas.height - 100, // 太空船初始 Y 座標靠下
   width: 60, // 太空船寬度
   height:90, // 太空船高度
   speed: 5 // 太空船移動速度
