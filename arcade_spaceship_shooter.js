@@ -67,36 +67,43 @@ function isCollide(a, b) {
          a.y < b.y + b.height && a.y + a.height > b.y;
 }
 
-// Pixel-perfect 碰撞判定（drawImage）
+// Pixel-perfect 碰撞判定（安全版）
 function pixelPerfectCollision(aImg, aPos, bImg, bPos) {
-  const tempCanvas = document.createElement('canvas'); // 暫存 canvas
-  tempCanvas.width = Math.max(aPos.width, bPos.width);
-  tempCanvas.height = Math.max(aPos.height, bPos.height);
-  const tctx = tempCanvas.getContext('2d');
+    // 確保圖片已載入
+    if (!aImg.complete || !bImg.complete) return false;
 
-  // 計算重疊區域
-  const overlapX = Math.max(aPos.x, bPos.x);
-  const overlapY = Math.max(aPos.y, bPos.y);
-  const overlapWidth = Math.min(aPos.x + aPos.width, bPos.x + bPos.width) - overlapX;
-  const overlapHeight = Math.min(aPos.y + aPos.height, bPos.y + bPos.height) - overlapY;
+    // 確保位置寬高有效
+    if (aPos.width <= 0 || aPos.height <= 0 || bPos.width <= 0 || bPos.height <= 0) return false;
 
-  if (overlapWidth <= 0 || overlapHeight <= 0) return false; // 無重疊
+    // 計算重疊區域
+    const overlapX = Math.max(aPos.x, bPos.x);
+    const overlapY = Math.max(aPos.y, bPos.y);
+    const overlapWidth = Math.min(aPos.x + aPos.width, bPos.x + bPos.width) - overlapX;
+    const overlapHeight = Math.min(aPos.y + aPos.height, bPos.y + bPos.height) - overlapY;
 
-  // 取得 a 的像素
-  tctx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
-  tctx.drawImage(aImg, aPos.x - overlapX, aPos.y - overlapY, aPos.width, aPos.height);
-  const aData = tctx.getImageData(0, 0, overlapWidth, overlapHeight).data;
+    if (overlapWidth <= 0 || overlapHeight <= 0) return false; // 無重疊
 
-  // 取得 b 的像素
-  tctx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
-  tctx.drawImage(bImg, bPos.x - overlapX, bPos.y - overlapY, bPos.width, bPos.height);
-  const bData = tctx.getImageData(0, 0, overlapWidth, overlapHeight).data;
+    // 建立暫存 canvas
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = overlapWidth;
+    tempCanvas.height = overlapHeight;
+    const tctx = tempCanvas.getContext('2d');
 
-  // 像素比對，只要 a 和 b 對應像素都不透明就算碰撞
-  for (let i = 3; i < aData.length; i += 4) {
-    if (aData[i] > 0 && bData[i] > 0) return true;
-  }
-  return false;
+    // 取得 a 的像素
+    tctx.clearRect(0, 0, overlapWidth, overlapHeight);
+    tctx.drawImage(aImg, aPos.x - overlapX, aPos.y - overlapY, aPos.width, aPos.height);
+    const aData = tctx.getImageData(0, 0, overlapWidth, overlapHeight).data;
+
+    // 取得 b 的像素
+    tctx.clearRect(0, 0, overlapWidth, overlapHeight);
+    tctx.drawImage(bImg, bPos.x - overlapX, bPos.y - overlapY, bPos.width, bPos.height);
+    const bData = tctx.getImageData(0, 0, overlapWidth, overlapHeight).data;
+
+    // 像素比對，只要 a 和 b 對應像素都不透明就算碰撞
+    for (let i = 3; i < aData.length; i += 4) {
+        if (aData[i] > 0 && bData[i] > 0) return true;
+    }
+    return false;
 }
 
 // 主遊戲迴圈
@@ -179,4 +186,3 @@ shipImg.onload = ship2Img.onload = () => {
     gameLoop();
   }
 };
-
