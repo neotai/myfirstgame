@@ -86,7 +86,7 @@ function pixelCollisionCanvas(ctx, a, b) {
     const overlapHeight = Math.min(a.y + a.height, b.y + b.height) - overlapY;
 
     // 如果沒有重疊，直接回傳 false
-    //if (overlapWidth <= 0 || overlapHeight <= 0) return false;
+    if (overlapWidth <= 0 || overlapHeight <= 0) return false;
 
     // 從主 canvas 取得重疊區域的像素資料
     const data = ctx.getImageData(overlapX, overlapY, overlapWidth, overlapHeight).data;
