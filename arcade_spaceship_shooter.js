@@ -66,7 +66,18 @@ function spawnEnemy() {
   });
 }
 
-// 檢查碰撞
+//檢查子彈碰撞
+function isCollide(a, b) {
+  // 判斷兩個矩形是否重疊
+  return (
+    a.x < b.x + b.width &&
+    a.x + a.width > b.x &&
+    a.y < b.y + b.height &&
+    a.y + a.height > b.y
+  );
+}
+
+// 檢查太空船碰撞
 function pixelCollision(imgA, posA, imgB, posB) {
     // 計算兩張圖的重疊區域座標與寬高
     const overlapX = Math.max(posA.x, posB.x);
