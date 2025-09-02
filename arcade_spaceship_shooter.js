@@ -14,7 +14,7 @@ var Rspeed=0
 // 定義太空船物件
 const ship = {
   x: canvas.width / 2, // 太空船初始 X 座標在中間
-  y: canvas.height - 100, // 太空船初始 Y 座標靠下
+  y: canvas.height - 120, // 太空船初始 Y 座標靠下
   width: 60, // 太空船寬度
   height:90, // 太空船高度
   speed: 5 // 太空船移動速度
@@ -90,7 +90,7 @@ function pixelCollisionCanvas(ctx, a, b) {
 
     // 從主 canvas 取得重疊區域的像素資料
     const data = ctx.getImageData(overlapX, overlapY, overlapWidth, overlapHeight).data;
-
+    console.log(data)
     // 檢查每個像素的 alpha 是否同時存在
     // 假設 a 和 b 是不同顏色區域，這裡簡單判斷 alpha > 0 就視為有像素
     for (let i = 3; i < data.length; i += 4) { // i+3 是 alpha
