@@ -8,6 +8,7 @@ const shipImg = new Image(); // 建立圖片物件
 shipImg.src = 'spaceship.png'; // 圖片檔名
 const ship2Img = new Image(); // 建立圖片物件
 ship2Img.src = 'spaceship2.png'; // 圖片檔名
+const ctx = canvas.getContext('2d');
 var start=false
 var Level=1
 var Rspeed=0
@@ -155,7 +156,6 @@ function gameLoop() {
     //ctx.fillRect(enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height); // 畫敵人
     ctx.drawImage(ship2Img,enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height);
     // 檢查敵人是否與太空船碰撞
-    const ctx = canvas.getContext('2d');
     if (pixelCollisionCanvas( ctx, ship, enemies[i])) {
       isGameOver = true; // 遊戲結束
     }
