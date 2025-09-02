@@ -39,13 +39,15 @@ document.addEventListener('keyup', e => { keys[e.code] = false; }); // 放開鍵
 
 // 太空船發射子彈
 function shoot() {
-  bullets.push({
-    x: ship.x + ship.width / 2 - 4, // 子彈 X 座標，太空船正中間
-    y: ship.y, // 子彈 Y 座標，太空船頂端
-    width: 8, // 子彈寬度
-    height: 16, // 子彈高度
-    speed: 8 // 子彈速度
-  });
+  if(start){
+    bullets.push({
+      x: ship.x + ship.width / 2 - 4, // 子彈 X 座標，太空船正中間
+      y: ship.y, // 子彈 Y 座標，太空船頂端
+      width: 8, // 子彈寬度
+      height: 16, // 子彈高度
+      speed: 8 // 子彈速度
+    });
+  }
 }
 
 // 生成敵人
@@ -90,7 +92,7 @@ function pixelCollisionCanvas(ctx, a, b) {
 
     // 從主 canvas 取得重疊區域的像素資料
     const data = ctx.getImageData(overlapX, overlapY, overlapWidth, overlapHeight).data;
-    //console.log(data)
+    console.log(data)
     // 檢查每個像素的 alpha 是否同時存在
     // 假設 a 和 b 是不同顏色區域，這裡簡單判斷 alpha > 0 就視為有像素
     for (let i = 3; i < data.length; i += 4) { // i+3 是 alpha
