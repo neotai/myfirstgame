@@ -67,14 +67,59 @@ function spawnEnemy() {
 }
 
 // 檢查碰撞
-function isCollide(a, b) {
-  // 判斷兩個矩形是否重疊
-  return (
-    a.x < b.x + b.width &&
-    a.x + a.width > b.x &&
-    a.y < b.y + b.height &&
-    a.y + a.height > b.y
-  );
+function pixelCollision(imgA, posA, imgB, posB) {
+    // 計算兩張圖的重疊區域座標與寬高
+    const overlapX = Math.max(posA.x, posB.x);
+    const overlapY = Math.max(posA.y, posB.y);
+    const overlapWidth = Math.min(posA.x + posA.width, posB.x + posB.width) - overlapX;
+    const overlapHeight = Math.min(posA.y + posA.height, posB.y + posB.height) - overlapY;
+
+    // 若沒有重疊則直接回傳 false
+    if (overlapWidth <= 0 || overlapHeight <= 0) return false;
+
+    // 建立暫時 canvas 用來抓取像素資料
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = overlapWidth;
+    tempCanvas.height = overlapHeight;
+    const tempCtx = tempCanvas.getContext('2d');
+
+    // 將圖 a 的重疊區繪製到 canvas
+    tempCtx.clearRect(0, 0, overlapWidth, overlapHeight);
+    tempCtx.drawImage(
+        imgA,
+        overlapX - posA.x,
+        overlapY - posA.y,
+        overlapWidth,
+        overlapHeight,
+        0, 0,
+        overlapWidth,
+        overlapHeight
+    );
+    const dataA = tempCtx.getImageData(0, 0, overlapWidth, overlapHeight).data;
+
+    // 將圖 b 的重疊區繪製到 canvas
+    tempCtx.clearRect(0, 0, overlapWidth, overlapHeight);
+    tempCtx.drawImage(
+        imgB,
+        overlapX - posB.x,
+        overlapY - posB.y,
+        overlapWidth,
+        overlapHeight,
+        0, 0,
+        overlapWidth,
+        overlapHeight
+    );
+    const dataB = tempCtx.getImageData(0, 0, overlapWidth, overlapHeight).data;
+
+    // 檢查每個像素的 alpha 是否同時 >0
+    for (let i = 3; i < dataA.length; i += 4) {
+        if (dataA[i] > 0 && dataB[i] > 0) {
+            return true; // 任一像素同時不透明 → 碰撞
+        }
+    }
+
+    // 全部像素都沒有同時不透明 → 沒有碰撞
+    return false;
 }
 
 // 主遊戲迴圈
@@ -128,7 +173,7 @@ function gameLoop() {
     //ctx.fillRect(enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height); // 畫敵人
     ctx.drawImage(ship2Img,enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height);
     // 檢查敵人是否與太空船碰撞
-    if (isCollide(enemies[i], ship)) {
+    if (pixelCollision(shipImg, ship, ship2Img, enemies[i])) {
       isGameOver = true; // 遊戲結束
     }
 
