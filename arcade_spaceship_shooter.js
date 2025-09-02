@@ -2,7 +2,7 @@
 const canvas = document.createElement('canvas'); // 建立畫布
 document.body.appendChild(canvas); // 加入到頁面
 canvas.width = 480; // 設定畫布寬度
-canvas.height = 800; // 設定畫布高度
+canvas.height = 700; // 設定畫布高度
 const ctx = canvas.getContext('2d'); // 取得繪圖上下文
 const shipImg = new Image(); // 建立圖片物件
 shipImg.src = 'spaceship.png'; // 圖片檔名
