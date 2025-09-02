@@ -165,8 +165,7 @@ function gameLoop() {
 //}
 document.addEventListener('keydown', function(e) {
   if (e.code === 'Space' && !start) {
-    document.getElementById('space').style.display = 'none';
-    //document.getElementById('space').style.color = '#222';
+    $('#start').hide()
     start = true;
     gameLoop();
   }
