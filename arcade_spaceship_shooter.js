@@ -53,7 +53,7 @@ function spawnEnemy() {
   const enemyWidth = 54; // 敵人寬度
   //訂定速度
   if(Level<5){
-    Rspeed = Level + Math.random() * Level // 敵人速度隨機
+    Rspeed = Level + Math.random() * Level/2 // 敵人速度隨機
   }else{
     Rspeed = 10 //敵人速度固定
   }
@@ -119,7 +119,7 @@ function gameLoop() {
   }
 
   // 生成敵人
-    if (Math.random() < 0.03 && enemies.length<Level*2) spawnEnemy(); // 隨機生成敵人
+    if (Math.random() < 0.03 && enemies.length<Math.floor(Level*1.5)+2) spawnEnemy(); // 隨機生成敵人
 
   // 更新並繪製敵人
   for (let i = enemies.length - 1; i >= 0; i--) {
