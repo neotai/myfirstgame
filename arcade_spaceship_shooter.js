@@ -221,7 +221,7 @@ function gameLoop() {
 //}
 document.addEventListener('keydown', function(e) {
   if (e.code === 'Space' && !start) {
-    $('#start').hide()
+    $('#space').hide()
     start = true;
     gameLoop();
   }
