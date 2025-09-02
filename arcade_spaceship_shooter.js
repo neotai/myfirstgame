@@ -8,7 +8,6 @@ const shipImg = new Image(); // 建立圖片物件
 shipImg.src = 'spaceship.png'; // 圖片檔名
 const ship2Img = new Image(); // 建立圖片物件
 ship2Img.src = 'spaceship2.png'; // 圖片檔名
-const ctx = canvas.getContext('2d');
 var start=false
 var Level=1
 var Rspeed=0
