@@ -13,8 +13,8 @@ var Level=1
 var Rspeed=0
 let imagesLoaded = 0;
 
-shipImg.onload = () => { imagesLoaded++; checkStart(); }
-ship2Img.onload = () => { imagesLoaded++; checkStart(); }
+shipImg.onload = () => { imagesLoaded++}
+ship2Img.onload = () => { imagesLoaded++}
 
 // 定義太空船物件
 const ship = {
@@ -195,7 +195,7 @@ function gameLoop() {
 //  start=true
 //  gameLoop(); // 啟動主迴圈
 //}
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', function (e){
   if (e.code === 'Space' && !start && imagesLoaded == 2) {
     $('#space').hide()
     start = true;
