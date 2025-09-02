@@ -78,59 +78,28 @@ function isCollide(a, b) {
 }
 
 // 檢查太空船碰撞
-function pixelCollision(imgA, posA, imgB, posB) {
-    // 計算兩張圖的重疊區域座標與寬高
-    const overlapX = Math.max(posA.x, posB.x);
-    const overlapY = Math.max(posA.y, posB.y);
-    const overlapWidth = Math.min(posA.x + posA.width, posB.x + posB.width) - overlapX;
-    const overlapHeight = Math.min(posA.y + posA.height, posB.y + posB.height) - overlapY;
+function pixelCollisionCanvas(ctx, a, b) {
+    // 計算兩個區域重疊的座標與大小
+    const overlapX = Math.max(a.x, b.x);
+    const overlapY = Math.max(a.y, b.y);
+    const overlapWidth = Math.min(a.x + a.width, b.x + b.width) - overlapX;
+    const overlapHeight = Math.min(a.y + a.height, b.y + b.height) - overlapY;
 
-    // 若沒有重疊則直接回傳 false
+    // 如果沒有重疊，直接回傳 false
     if (overlapWidth <= 0 || overlapHeight <= 0) return false;
 
-    // 建立暫時 canvas 用來抓取像素資料
-    const tempCanvas = document.createElement('canvas');
-    tempCanvas.width = overlapWidth;
-    tempCanvas.height = overlapHeight;
-    const tempCtx = tempCanvas.getContext('2d');
+    // 從主 canvas 取得重疊區域的像素資料
+    const data = ctx.getImageData(overlapX, overlapY, overlapWidth, overlapHeight).data;
 
-    // 將圖 a 的重疊區繪製到 canvas
-    tempCtx.clearRect(0, 0, overlapWidth, overlapHeight);
-    tempCtx.drawImage(
-        imgA,
-        overlapX - posA.x,
-        overlapY - posA.y,
-        overlapWidth,
-        overlapHeight,
-        0, 0,
-        overlapWidth,
-        overlapHeight
-    );
-    const dataA = tempCtx.getImageData(0, 0, overlapWidth, overlapHeight).data;
-
-    // 將圖 b 的重疊區繪製到 canvas
-    tempCtx.clearRect(0, 0, overlapWidth, overlapHeight);
-    tempCtx.drawImage(
-        imgB,
-        overlapX - posB.x,
-        overlapY - posB.y,
-        overlapWidth,
-        overlapHeight,
-        0, 0,
-        overlapWidth,
-        overlapHeight
-    );
-    const dataB = tempCtx.getImageData(0, 0, overlapWidth, overlapHeight).data;
-
-    // 檢查每個像素的 alpha 是否同時 >0
-    for (let i = 3; i < dataA.length; i += 4) {
-        if (dataA[i] > 0 && dataB[i] > 0) {
-            return true; // 任一像素同時不透明 → 碰撞
+    // 檢查每個像素的 alpha 是否同時存在
+    // 假設 a 和 b 是不同顏色區域，這裡簡單判斷 alpha > 0 就視為有像素
+    for (let i = 3; i < data.length; i += 4) { // i+3 是 alpha
+        if (data[i] > 0) {
+            return true; // 任一像素不透明 → 碰撞
         }
     }
 
-    // 全部像素都沒有同時不透明 → 沒有碰撞
-    return false;
+    return false; // 沒有像素重疊 → 沒碰撞
 }
 
 // 主遊戲迴圈
@@ -184,7 +153,7 @@ function gameLoop() {
     //ctx.fillRect(enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height); // 畫敵人
     ctx.drawImage(ship2Img,enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height);
     // 檢查敵人是否與太空船碰撞
-    if (pixelCollision(shipImg, ship, ship2Img, enemies[i])) {
+    if (pixelCollision( canvas, ship, enemies[i])) {
       isGameOver = true; // 遊戲結束
     }
 
