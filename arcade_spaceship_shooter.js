@@ -90,7 +90,7 @@ function pixelCollisionCanvas(ctx, a, b) {
 
     // 從主 canvas 取得重疊區域的像素資料
     const data = ctx.getImageData(overlapX, overlapY, overlapWidth, overlapHeight).data;
-    console.log(data)
+    //console.log(data)
     // 檢查每個像素的 alpha 是否同時存在
     // 假設 a 和 b 是不同顏色區域，這裡簡單判斷 alpha > 0 就視為有像素
     for (let i = 3; i < data.length; i += 4) { // i+3 是 alpha
@@ -153,7 +153,7 @@ function gameLoop() {
     //ctx.fillRect(enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height); // 畫敵人
     ctx.drawImage(ship2Img,enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height);
     // 檢查敵人是否與太空船碰撞
-    if (pixelCollision( canvas, ship, enemies[i])) {
+    if (pixelCollisionCanvas( canvas, ship, enemies[i])) {
       isGameOver = true; // 遊戲結束
     }
 
