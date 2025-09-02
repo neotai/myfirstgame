@@ -155,7 +155,8 @@ function gameLoop() {
     //ctx.fillRect(enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height); // 畫敵人
     ctx.drawImage(ship2Img,enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height);
     // 檢查敵人是否與太空船碰撞
-    if (pixelCollisionCanvas( canvas, ship, enemies[i])) {
+    const ctx = canvas.getContext('2d');
+    if (pixelCollisionCanvas( ctx, ship, enemies[i])) {
       isGameOver = true; // 遊戲結束
     }
 
