@@ -100,9 +100,9 @@ function pixelCollisionCanvas(ctx, a, b) {
     console.log(data)
     // 檢查每個像素的 alpha 是否同時存在
     // 假設 a 和 b 是不同顏色區域，這裡簡單判斷 alpha > 0 就視為有像素
-    for (let i = 3; i < data.length; i += 4) { // i+3 是 alpha
-        if (data[i] > 0) {
-            return true; // 任一像素不透明 → 碰撞
+    for (let i = 3; i < aData.length; i += 4) {
+        if (aData[i] > 0 && bData[i] > 0) {
+            return true; // 兩張圖對應像素都不透明才算碰撞
         }
     }
 
