@@ -15,8 +15,8 @@ var Rspeed=0
 const ship = {
   x: canvas.width / 2, // 太空船初始 X 座標在中間
   y: canvas.height - 60, // 太空船初始 Y 座標靠下
-  width: 40, // 太空船寬度
-  height: 60, // 太空船高度
+  width: 60, // 太空船寬度
+  height:90, // 太空船高度
   speed: 5 // 太空船移動速度
 };
 
@@ -50,7 +50,7 @@ function shoot() {
 
 // 生成敵人
 function spawnEnemy() {
-  const enemyWidth = 36; // 敵人寬度
+  const enemyWidth = 54; // 敵人寬度
   //訂定速度
   if(Level<5){
     Rspeed = Level + Math.random() * Level // 敵人速度隨機
@@ -61,7 +61,7 @@ function spawnEnemy() {
     x: Math.random() * (canvas.width - enemyWidth), // 敵人 X 座標隨機
     y: -40, // 敵人 Y 座標在螢幕外
     width: enemyWidth, // 敵人寬度
-    height: 54, // 敵人高度
+    height: 81, // 敵人高度
     speed: Rspeed //敵人速度
   });
 }
@@ -165,8 +165,8 @@ function gameLoop() {
 //}
 document.addEventListener('keydown', function(e) {
   if (e.code === 'Space' && !start) {
-    document.getElementById('space').style.display = 'inline-block';
-    document.getElementById('space').style.color = '#222';
+    document.getElementById('space').style.display = 'none';
+    //document.getElementById('space').style.color = '#222';
     start = true;
     gameLoop();
   }
