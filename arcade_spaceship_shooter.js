@@ -6,6 +6,7 @@ canvas.height = 600; // 設定畫布高度
 const ctx = canvas.getContext('2d'); // 取得繪圖上下文
 
 // 載入太空船與敵人圖片
+python -m http.server 8000
 const shipImg = new Image(); 
 shipImg.crossOrigin = 'anonymous'
 shipImg.src = 'spaceship.png'; // 太空船圖片
