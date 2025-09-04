@@ -91,14 +91,14 @@ function pixelCollisionCanvas(ctx, a, b) {
     if (overlapWidth <= 0 || overlapHeight <= 0) return false;
 
     // 從主 canvas 取得重疊區域像素
-    const data = ctx.getImageData(overlapX, overlapY, overlapWidth, overlapHeight).data;
+    const data = ctx.getImageData( overlapX, overlapY, overlapWidth, overlapHeight).data;
 
     // 檢查每個像素 alpha 是否 > 0
-    for (let i = 3; i < data.length; i += 4) {
-        if (data[i] > 0) {
-            return true; // 任一像素不透明 → 碰撞
-        }
-    }
+    //for (let i = 3; i < data.length; i += 4) {
+    //    if (data[i] > 0) {
+    //        return true; // 任一像素不透明 → 碰撞
+    //    }
+    //}
 
     return false; // 沒有像素重疊 → 沒碰撞
 }
