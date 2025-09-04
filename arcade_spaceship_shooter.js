@@ -8,8 +8,10 @@ const ctx = canvas.getContext('2d'); // 取得繪圖上下文
 // 載入太空船與敵人圖片
 const shipImg = new Image(); 
 shipImg.src = 'spaceship.png'; // 太空船圖片
+shipImg.crossOrigin = 'anonymous'
 const ship2Img = new Image();
 ship2Img.src = 'spaceship2.png'; // 敵人圖片
+ship2Img.crossOrigin = 'anonymous'
 
 var start = false;
 var Level = 1;
